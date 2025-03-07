@@ -1,0 +1,14 @@
+enum Category {
+  TWO_WHEELER
+  FOUR_WHEELER
+}
+
+type VehicleType {
+  id: String
+  name: String
+  category: Category
+}
+
+type Query {
+  vehicleTypesByCategory(category: Category!): [VehicleType]!
+}
