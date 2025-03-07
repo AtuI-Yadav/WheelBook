@@ -1,0 +1,21 @@
+type Vehicle {
+  id: String
+  name: String
+  isAvailable: String
+  VehicleType: VehicleType
+  vehicleTypeId: String
+}
+
+input UpdateVehicleInput {
+  id: String!
+  name: String
+  isAvailable: String
+}
+
+type Query {
+  vehicleByType(vehicleTypeId: String!): [Vehicle]!
+}
+
+type Mutation {
+  updateVehicle(updateVehicleInput: UpdateVehicleInput!): Vehicle!
+}
