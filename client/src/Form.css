@@ -1,0 +1,44 @@
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 5rem;
+}
+
+.question {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.back-button,
+.next-button {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+}
