@@ -5,11 +5,18 @@ import StepModel from "./StepModel";
 import StepDateRange from "./StepDateRange";
 import { Button } from "@mui/material";
 import "../Form.css";
-import StepVehicleType from "./StepVehicleType";
-import StepRadioForm from "./StepRadioForm";
+import StepSuccess from "./StepSuccess";
+
+const stepsCmpKeys = [
+  "name-form",
+  "wheels-form",
+  "vehicleModal-form",
+  "dateRange-form",
+  "stepSuccess-form",
+];
 
 const StepForm = () => {
-  const [step, setStep] = useState(1);
+  const [activeStep, setActiveStep] = useState("name-form");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -19,94 +26,77 @@ const StepForm = () => {
     startDate: null,
     endDate: null,
   });
-  const [error, setError] = useState({});
 
-  const validateStep = () => {
-    let newError = {};
-    if (step === 1) {
-      if (!formData.firstName.trim()) {
-        newError.firstName = "First name is required";
-      } else if (!/^[A-Za-z]{2,}$/.test(formData.firstName.trim())) {
-        newError.firstName = "First name must be at least 2 letters (A-Z)";
-      }
-
-      if (!formData.lastName.trim()) {
-        newError.lastName = "Last name is required";
-      } else if (!/^[A-Za-z]{2,}$/.test(formData.lastName.trim())) {
-        newError.lastName = "Last name must be at least 2 letters (A-Z)";
-      }
-    } else if (step === 2) {
-      if (!formData.wheels)
-        newError.wheels = "Please select the number of wheels";
-    } else if (step === 3) {
-      if (!formData.vehicleType)
-        newError.vehicleType = "Please select a vehicle type";
-    } else if (step === 4) {
-      if (!formData.specificModel)
-        newError.specificModel = "Please select a model";
-    } else if (step === 5) {
-      if (!formData.startDate) newError.startDate = "Start date is required";
-      if (!formData.endDate) newError.endDate = "End date is required";
-      if (
-        formData.startDate &&
-        formData.endDate &&
-        formData.endDate < formData.startDate
-      ) {
-        newError.endDate = "End date must be after start date";
-      }
+  const handleNextClick = () => {
+    const currentIndex = stepsCmpKeys.indexOf(activeStep);
+    if (currentIndex < stepsCmpKeys.length - 1) {
+      setActiveStep(stepsCmpKeys[currentIndex + 1]);
     }
-    setError(newError);
-    return Object.keys(newError).length === 0;
   };
 
-  const handleNext = () => {
-    if (validateStep()) {
-      setStep((prev) => Math.min(prev + 1, steps.length));
+  const handleBackClick = () => {
+    const currentIndex = stepsCmpKeys.indexOf(activeStep);
+    if (currentIndex > 0) {
+      setActiveStep(stepsCmpKeys[currentIndex - 1]);
     }
-    console.log(formData);
   };
 
-  const handleBack = () => {
-    setStep((prev) => Math.max(prev - 1, 1));
-  };
-
-  const steps = [
-    <StepName formData={formData} setFormData={setFormData} error={error} />,
-    <StepRadioForm
-      formData={formData}
-      setFormData={setFormData}
-      error={error}
-      currentStep="wheels"
-    />,
-    <StepRadioForm
-      formData={formData}
-      setFormData={setFormData}
-      error={error}
-      currentStep="vehicleType"
-    />,
-    <StepRadioForm
-      formData={formData}
-      setFormData={setFormData}
-      error={error}
-      currentStep="specificModel"
-    />,
-    // <StepWheels formData={formData} setFormData={setFormData} error={error} />,
-    // <StepVehicleType
-    //   formData={formData}
-    //   setFormData={setFormData}
-    //   error={error}
-    // />,
-    // <StepModel formData={formData} setFormData={setFormData} error={error} />,
-    <StepDateRange
-      formData={formData}
-      setFormData={setFormData}
-      error={error}
-    />,
+  const stepsComponent = [
+    {
+      key: "name-form",
+      component: (
+        <StepName
+          key="name-form"
+          formData={formData}
+          setFormData={setFormData}
+          onSuccess={handleNextClick}
+        />
+      ),
+    },
+    {
+      key: "wheels-form",
+      component: (
+        <StepWheels
+          formData={formData}
+          setFormData={setFormData}
+          onSuccess={handleNextClick}
+        />
+      ),
+    },
+    {
+      key: "vehicleModal-form",
+      component: (
+        <StepModel
+          formData={formData}
+          setFormData={setFormData}
+          onSuccess={handleNextClick}
+        />
+      ),
+    },
+    {
+      key: "dateRange-form",
+      component: (
+        <StepDateRange
+          formData={formData}
+          setFormData={setFormData}
+          onSuccess={handleNextClick}
+        />
+      ),
+    },
+    {
+      key: "stepSuccess-form",
+      component: <StepSuccess />,
+    },
   ];
 
   return (
     <div className="form-container">
-      {steps[step - 1]}
+      {stepsComponent.map((step) => {
+        if (step.key === activeStep) {
+          return step.component;
+        }
+      })}
+
       <div
         className="button-group"
         style={{
@@ -119,13 +109,18 @@ const StepForm = () => {
         <Button
           variant="outlined"
           color="secondary"
-          onClick={handleBack}
-          disabled={step === 1}
+          onClick={handleBackClick}
+          disabled={activeStep === "name-form"}
         >
           Back
         </Button>
-        <Button variant="contained" color="primary" onClick={handleNext}>
-          {step === steps.length ? "Submit" : "Next"}
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          form={activeStep}
+        >
+          {activeStep === "dateRange-form" ? "Submit" : "Next"}
         </Button>
       </div>
     </div>
