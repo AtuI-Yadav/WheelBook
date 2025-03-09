@@ -3,8 +3,5 @@
   "version": "1.0.0",
   "scripts": {
     "server": "cd Server && npm run wheelbook-server"
-  },
-  "devDependencies": {
-    "concurrently": "^8.0.0"
   }
 }
