@@ -16,7 +16,7 @@ const stepsCmpKeys = [
 ];
 
 const StepForm = () => {
-  const [activeStep, setActiveStep] = useState("dateRange-form");
+  const [activeStep, setActiveStep] = useState("name-form");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
