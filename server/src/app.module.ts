@@ -7,6 +7,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { UsersModule } from './users/users.module';
 import { VehicleTypesModule } from './vehicle-types/vehicle-types.module';
 import { VehiclesModule } from './vehicles/vehicles.module';
+import { BookingsModule } from './bookings/bookings.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { VehiclesModule } from './vehicles/vehicles.module';
     UsersModule,
     VehicleTypesModule,
     VehiclesModule,
+    BookingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

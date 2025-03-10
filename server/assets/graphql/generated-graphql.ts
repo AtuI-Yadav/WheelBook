@@ -13,6 +13,14 @@ export enum Category {
     FOUR_WHEELER = "FOUR_WHEELER"
 }
 
+export class CreateBookingInput {
+    firstName: string;
+    lastName: string;
+    vehicleId: string;
+    startDate: Date;
+    endDate: Date;
+}
+
 export class CreateUserInput {
     firstName: string;
     lastName: string;
@@ -30,13 +38,17 @@ export class UpdateVehicleInput {
     isAvailable?: Nullable<string>;
 }
 
-export class User {
+export class Booking {
     id?: Nullable<string>;
-    firstName?: Nullable<string>;
-    lastName?: Nullable<string>;
+    user?: Nullable<User>;
+    startDate?: Nullable<Date>;
+    endDate?: Nullable<Date>;
+    vehicle?: Nullable<Vehicle>;
 }
 
 export abstract class IQuery {
+    abstract booking(id: string): Nullable<Booking> | Promise<Nullable<Booking>>;
+
     abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
 
     abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
@@ -47,6 +59,8 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
+    abstract createBooking(createBookingInput: CreateBookingInput): Booking | Promise<Booking>;
+
     abstract createUser(createUserInput: CreateUserInput): User | Promise<User>;
 
     abstract updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
@@ -54,6 +68,12 @@ export abstract class IMutation {
     abstract removeUser(id: string): Nullable<User> | Promise<Nullable<User>>;
 
     abstract updateVehicle(updateVehicleInput: UpdateVehicleInput): Vehicle | Promise<Vehicle>;
+}
+
+export class User {
+    id?: Nullable<string>;
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
 }
 
 export class VehicleType {

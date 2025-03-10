@@ -25,6 +25,7 @@ const StepForm = () => {
     specificModel: "",
     startDate: null,
     endDate: null,
+    bookingId: "",
   });
 
   const handleNextClick = () => {
@@ -85,7 +86,7 @@ const StepForm = () => {
     },
     {
       key: "stepSuccess-form",
-      component: <StepSuccess />,
+      component: <StepSuccess formData={formData} />,
     },
   ];
 
@@ -106,22 +107,26 @@ const StepForm = () => {
           gap: "16px",
         }}
       >
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={handleBackClick}
-          disabled={activeStep === "name-form"}
-        >
-          Back
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          form={activeStep}
-        >
-          {activeStep === "dateRange-form" ? "Submit" : "Next"}
-        </Button>
+        {activeStep != "stepSuccess-form" && (
+          <>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleBackClick}
+              disabled={activeStep === "name-form"}
+            >
+              Back
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              form={activeStep}
+            >
+              {activeStep === "dateRange-form" ? "Submit" : "Next"}
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );

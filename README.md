@@ -48,7 +48,7 @@ This is a Full Stack application for booking vehicles. Users can select a vehicl
    ```
 5. Run database migrations:
    ```sh
-   npx prisma migrate dev
+   npx prisma db push
    ```
 6. Seed the database with initial data:
    ```sh

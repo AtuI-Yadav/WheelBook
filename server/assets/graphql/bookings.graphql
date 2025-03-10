@@ -1,0 +1,25 @@
+scalar Date
+
+type Booking {
+  id: String
+  user: User
+  startDate: Date
+  endDate: Date
+  vehicle: Vehicle
+}
+
+input CreateBookingInput {
+  firstName: String!
+  lastName: String!
+  vehicleId: String!
+  startDate: Date!
+  endDate: Date!
+}
+
+type Query {
+  booking(id: String!): Booking
+}
+
+type Mutation {
+  createBooking(createBookingInput: CreateBookingInput!): Booking!
+}
